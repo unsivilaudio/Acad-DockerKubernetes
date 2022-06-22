@@ -1,13 +1,16 @@
-FROM node:14
+FROM node
 
-WORKDIR /app
-
-COPY package.json .
+USER node
+RUN mkdir -p /home/node/app
+WORKDIR /home/node/app
+COPY --chown=node:node ./package.json /home/node/app
 
 RUN npm install
 
-COPY . .
+ARG DEFAULT_PORT=80
+COPY --chown=node:node . /home/node/app/
 
-EXPOSE 80
+ENV PORT ${DEFAULT_PORT}
+EXPOSE ${PORT}
 
-CMD [ "node", "server.js" ]
+CMD [ "npm", "start" ]
