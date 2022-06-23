@@ -72,26 +72,29 @@ app.delete('/goals/:id', async (req, res) => {
         res.status(200).json({ message: 'Deleted goal!' });
         console.log('DELETED GOAL');
     } catch (err) {
-        console.error('ERROR FETCHING GOALS');
+        console.error('ERROR FETCHING GOALS!');
         console.error(err.message);
         res.status(500).json({ message: 'Failed to delete goal.' });
     }
 });
 
 mongoose.connect(
-    'mongodb://mongodb:27017/course-goals',
+    'mongodb://mongodb:27017/',
     {
+        user: process.env.MONGO_USER,
+        password: process.env.MONGO_PASSWORD,
+        dbName: process.env.MONGO_DB,
         useNewUrlParser: true,
         useUnifiedTopology: true,
     },
     err => {
         if (err) {
-            console.error('FAILED TO CONNECT TO MONGODB');
+            console.error('FAILED TO CONNECT TO MONGODB!');
             console.error(err);
         } else {
-            console.log('CONNECTED TO MONGODB');
+            console.log('CONNECTED TO MONGODB.');
             app.listen(80, () => {
-                console.log('Listening on port 80');
+                console.log('Listening on port 80.');
             });
         }
     }

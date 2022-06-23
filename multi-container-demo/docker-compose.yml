@@ -1,0 +1,33 @@
+version: '3.8'
+services:
+    mongodb:
+        image: mongo
+        volumes:
+            - testdb:/data/db
+        environment:
+            - MONGO_USER=superawesome
+            - MONGO_PWD=forth3K1ng
+            - MONGO_DB=course-goals
+    server:
+        build:
+            context: ./backend
+        volumes:
+            - /home/node/app/node_modules
+            - ./backend:/home/node/app
+        ports:
+            - 80:80
+    app:
+        depends_on:
+            - server
+        volumes:
+            - /home/node/app/node_modules
+            - ./frontend:/home/node/app
+        build:
+            context: ./frontend
+        ports:
+            - 3000:3000
+        environment:
+            - WDS_SOCKET_PORT=0
+volumes:
+    testdb:
+        external: true
