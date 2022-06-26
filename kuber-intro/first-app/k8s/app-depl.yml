@@ -30,5 +30,6 @@ spec:
             containers:
                 - name: server
                   image: unsivilaudio/first-app
+                  imagePullPolicy: Always
                   ports:
                       - containerPort: 3000
