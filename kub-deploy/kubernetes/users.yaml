@@ -1,35 +1,35 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: users-service
+    name: users-service
 spec:
-  selector:
-    app: users
-  type: LoadBalancer
-  ports:
-    - protocol: TCP
-      port: 80
-      targetPort: 3000
+    selector:
+        app: users
+    type: LoadBalancer
+    ports:
+        - protocol: TCP
+          port: 80
+          targetPort: 3000
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: users-deployment
+    name: users-deployment
 spec:
-  replicas: 1
-  selector:
-    matchLabels:
-      app: users
-  template:
-    metadata:
-      labels:
-        app: users
-    spec:
-      containers:
-        - name: users-api
-          image: academind/kub-dep-users:latest
-          env:
-            - name: MONGODB_CONNECTION_URI
-              value: 'mongodb+srv://maximilian:wk4nFupsbntPbB3l@cluster0.ntrwp.mongodb.net/users?retryWrites=true&w=majority'
-            - name: AUTH_API_ADDRESSS
-              value: 'auth-service.default:3000'
+    replicas: 1
+    selector:
+        matchLabels:
+            app: users
+    template:
+        metadata:
+            labels:
+                app: users
+        spec:
+            containers:
+                - name: users-api
+                  image: unsivilaudio/kub-dep-users:latest
+                  env:
+                      - name: MONGODB_CONNECTION_URI
+                        value: 'mongodb+srv://superawesome:F0rth3k1ng@cluster0.9pe9g.mongodb.net/users?retryWrites=true&w=majority'
+                      - name: AUTH_API_ADDRESSS
+                        value: 'auth-service.default:3000'
