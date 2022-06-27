@@ -1,4 +1,5 @@
 const path = require('path');
+const cors = require('cors');
 const fs = require('fs');
 
 const express = require('express');
@@ -8,8 +9,9 @@ const axios = require('axios');
 const filePath = path.join(__dirname, process.env.TASKS_FOLDER, 'tasks.txt');
 
 const app = express();
-
 app.use(bodyParser.json());
+
+app.use(cors());
 
 const extractAndVerifyToken = async headers => {
     if (!headers.authorization) {
