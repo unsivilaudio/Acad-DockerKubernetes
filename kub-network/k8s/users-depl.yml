@@ -1,0 +1,38 @@
+apiVersion: v1
+kind: Service
+metadata:
+    name: users-srv
+spec:
+    type: LoadBalancer
+    selector:
+        app: users
+    ports:
+        - name: users-web
+          protocol: TCP
+          port: 8080
+          targetPort: 8080
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+    name: users-depl
+spec:
+    replicas: 1
+    selector:
+        matchLabels:
+            app: users
+    template:
+        metadata:
+            labels:
+                app: users
+        spec:
+            containers:
+                - name: users
+                  image: unsivilaudio/kub-users:latest
+                  env:
+                      - name: AUTH_ADDRESS
+                        value: 'auth-srv.default'
+                  resources:
+                      limits:
+                          cpu: '1'
+                          memory: '128M'
